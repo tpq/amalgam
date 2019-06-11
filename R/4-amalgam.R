@@ -97,7 +97,8 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
   x <- as.matrix(x)
   class(x) <- "matrix"
   if(any(x == 0)){
-    message("Alert: Zeros replaced with zCompositions for TARGET calculation.")
+    message("Alert: Replacing zeros with zCompositions for TARGET calculation.")
+    packageCheck("zCompositions")
     ARGS$x.no0 <- zCompositions::multRepl(x)
   }else{
     ARGS$x.no0 <- x

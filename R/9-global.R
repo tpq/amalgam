@@ -26,3 +26,16 @@ randAcomp <- function(nrows, ncols = nrows, lambda = 100){
   class(A) <- "matrix"
   A
 }
+
+#' Package Check
+#'
+#' Checks whether the user has the required package installed.
+#'  For back-end use only.
+#'
+#' @param package A character string. An R package.
+packageCheck <- function(package){
+
+  if(!requireNamespace(package, quietly = TRUE)){
+    stop("Uh oh! This amalgam method depends on ", package, ".")
+  }
+}

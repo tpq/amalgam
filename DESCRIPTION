@@ -1,6 +1,6 @@
 Package: amalgam
 Title: Amalgamation-Based Dimension Reduction of Compositional Data
-Version: 0.0.1
+Version: 0.0.2
 URL: http://github.com/tpq/amalgam
 BugReports: http://github.com/tpq/amalgam/issues
 Authors@R: c(
@@ -24,9 +24,9 @@ Imports:
     compositions,
     GA,
     vegan,
-    viridis,
-    zCompositions
+    viridis
 Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    zCompositions

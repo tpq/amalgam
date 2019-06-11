@@ -1,3 +1,7 @@
+## amalgam 0.0.2
+---------------------
+* Move `zCompositions` to Suggests
+
 ## amalgam 0.0.1
 ---------------------
 * New `int` methods

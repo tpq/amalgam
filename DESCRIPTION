@@ -1,11 +1,32 @@
 Package: amalgam
-Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
-Encoding: UTF-8
+Title: Amalgamation-Based Dimension Reduction of Compositional Data
+Version: 0.0.1
+URL: http://github.com/tpq/amalgam
+BugReports: http://github.com/tpq/amalgam/issues
+Authors@R: c(
+    person("Thomas", "Quinn", email = "contacttomquinn@gmail.com", role = c("aut", "cre"))
+    )
+Description: It is difficult to visualize high-dimensional compositional data. One approach
+    involves amalgamating the parts into a new set of composite features called "amalgams".
+    This package uses genetic algorithms to find an optimal set of amalgams that satisfies an
+    objective function. Although amalgams themselves are low-dimensional compositions, they
+    are not sub-compositions. Rather, amalgamation acts like a kind of non-linear dimension
+    reduction that can facilitate data understanding. Note that inferences made on
+    amalgamations may not agree with inferences made on the full composition.
+License: GPL-2
 LazyData: true
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1
+Encoding: UTF-8
+Depends:
+    R (>= 3.2.2)
+Imports:
+    compositions,
+    GA,
+    vegan,
+    viridis,
+    zCompositions
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat

@@ -41,11 +41,14 @@ print.amalgam <- function(x, ...){
 #' @param col A character vector. Used to color the figure.
 #' @param center A logical. Toggles whether to center the ternary plot.
 #' @param scale A logical. Toggles whether to scale the ternary plot.
+#' @param a1,a2,a3 The amalgams to show in the ternary plot.
 #' @param ... Not used.
 #' @importFrom compositions var.acomp
 #' @export
 plot.amalgam <- function(x, col = rep(1, nrow(x$amalgams)),
-                         center = FALSE, scale = FALSE, ...){
+                         center = FALSE, scale = FALSE,
+                         a1 = 1, a2 = 2, a3 = 3,
+                         ...){
 
   cols <- viridis::viridis(length(unique(col)))[factor(col)]
 
@@ -79,7 +82,7 @@ plot.amalgam <- function(x, col = rep(1, nrow(x$amalgams)),
     options("robust" = FALSE)
   }
 
-  graphics::plot(compositions::acomp(x$amalgams),
+  graphics::plot(compositions::acomp(x$amalgams[,c(a1,a2,a3)]),
                  col = cols, center = center, scale = scale,
                  main = "3-part amalgam", pch = 16)
 

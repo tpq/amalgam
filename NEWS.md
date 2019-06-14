@@ -1,3 +1,8 @@
+## amalgam 0.0.3
+---------------------
+* Update `plot.amalgam`
+    * Add argument to select which amalgams to show in ternary plot
+
 ## amalgam 0.0.2
 ---------------------
 * Move `zCompositions` to Suggests

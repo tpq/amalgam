@@ -5,7 +5,7 @@
 \title{Plot \code{amalgam} Object}
 \usage{
 \method{plot}{amalgam}(x, col = rep(1, nrow(x$amalgams)),
-  center = FALSE, scale = FALSE, ...)
+  center = FALSE, scale = FALSE, a1 = 1, a2 = 2, a3 = 3, ...)
 }
 \arguments{
 \item{x}{An \code{amalgam} object.}
@@ -15,6 +15,8 @@
 \item{center}{A logical. Toggles whether to center the ternary plot.}
 
 \item{scale}{A logical. Toggles whether to scale the ternary plot.}
+
+\item{a1, a2, a3}{The amalgams to show in the ternary plot.}
 
 \item{...}{Not used.}
 }

@@ -1,3 +1,10 @@
+## amalgam 0.0.4
+---------------------
+* New scalar product methods
+    * New `adot` computes Aitchison scalar product for two vectors
+    * New `amat` computes Aitchison scalar product for two matrices
+    * New unit tests
+
 ## amalgam 0.0.3
 ---------------------
 * Update `plot.amalgam`

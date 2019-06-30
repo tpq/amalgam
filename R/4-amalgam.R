@@ -88,18 +88,20 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
                         objective = objective.keepDist,
                         weights = weight.Nto1, ...){
 
+  # Coerce as.matrix (needed for data.frame and acomp input)
+  x <- as.matrix(x)
+  class(x) <- "matrix"
+
   # Collect arguments as a list
   ARGS <- list(x = x, n.amalgams = n.amalgams, maxiter = maxiter, z = z,
                objective = objective, weights = weights, ...)
   ARGS$forGA <- as.list(substitute(list(...)))[-1]
 
   # Replace zeros if needed...
-  x <- as.matrix(x)
-  class(x) <- "matrix"
   if(any(x == 0)){
     message("Alert: Replacing zeros with zCompositions for TARGET calculation.")
     packageCheck("zCompositions")
-    ARGS$x.no0 <- zCompositions::multRepl(x)
+    ARGS$x.no0 <- zCompositions::cmultRepl(x, method = "CZM")
   }else{
     ARGS$x.no0 <- x
   }

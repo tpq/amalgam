@@ -1,3 +1,9 @@
+## amalgam 0.0.5
+---------------------
+* Update `amalgam`
+    * Zeros now replaced with `zCompositions::cmultRepl`
+    * Correctly coerce input as matrix
+
 ## amalgam 0.0.4
 ---------------------
 * New scalar product methods

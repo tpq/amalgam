@@ -5,7 +5,8 @@
 \title{Argument Handler Function}
 \usage{
 prepareArgs(x, n.amalgams = 3, maxiter = ncol(x) * 10, z = NULL,
-  objective = objective.keepDist, weights = weight.Nto1, ...)
+  objective = objective.keepDist, weights = weight.Nto1,
+  asSLR = FALSE, ...)
 }
 \arguments{
 \item{x}{A matrix. The input data. Rows are samples and columns are components.}
@@ -19,6 +20,9 @@ prepareArgs(x, n.amalgams = 3, maxiter = ncol(x) * 10, z = NULL,
 \item{objective}{A function. The objective function. See above.}
 
 \item{weights}{A function. The weights function. See above.}
+
+\item{asSLR}{A boolean. Toggles whether to turn the amalgams into a set
+of summed log-ratios (SLRs). See \code{\link{as.slr}}.}
 
 \item{...}{Arguments passed to \code{GA::ga} function.}
 }

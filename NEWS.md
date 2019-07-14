@@ -1,3 +1,11 @@
+## amalgam 0.0.6
+---------------------
+* New `as.slr` function turns components into a set of summed log-ratios
+* Update `amalgam`
+    * New `asSLR` argument passed to objective functions
+    * Objective functions now support SLRs
+    * Update `plot` method for SLRs
+    
 ## amalgam 0.0.5
 ---------------------
 * Update `amalgam`

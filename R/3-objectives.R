@@ -17,11 +17,19 @@ objective.keepDist <- function(codon, ARGS){
     return(-1000000)
   }
 
+  # Calculate distance for SLR or amalgams
+  if(ARGS$asSLR){
+    slr <- as.slr(A)
+    NEWDIST <- as.matrix(stats::dist(slr))
+  }else{
+    clr <- compositions::clr(A)
+    NEWDIST <- as.matrix(stats::dist(clr))
+  }
+
   # Maximize correlation between AMALG dist and TARGET dist
-  AMALGDIST <- as.matrix(stats::dist(compositions::clr(A)))
   DIST <- ARGS$TARGET
   Od <- DIST[lower.tri(DIST)]
-  Ad <- AMALGDIST[lower.tri(AMALGDIST)]
+  Ad <- NEWDIST[lower.tri(NEWDIST)]
   stats::cor(Od, Ad)
 }
 
@@ -44,8 +52,16 @@ objective.maxRDA <- function(codon, ARGS){
     return(-1000000)
   }
 
+  # Calculate distance for SLR or amalgams
+  if(ARGS$asSLR){
+    slr <- as.slr(A)
+    v <- vegan::rda(slr, data.frame(ARGS$z))
+  }else{
+    ilr <- compositions::ilr(A)
+    v <- vegan::rda(ilr, data.frame(ARGS$z))
+  }
+
   # Maximize variance in Z explained by AMALG
-  v <- vegan::rda(compositions::ilr(A), data.frame(ARGS$z))
   v$CCA$eig / v$tot.chi
 }
 

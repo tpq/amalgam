@@ -30,6 +30,12 @@ print.amalgam <- function(x, ...){
   print(x$fitness)
   cat("\n")
 
+  if(!is.null(x$SLR)){
+    cat("SLRs:\n")
+    print(ncol(x$SLR))
+    cat("\n")
+  }
+
   cat("Use plot() method!")
 }
 
@@ -49,6 +55,10 @@ plot.amalgam <- function(x, col = rep(1, nrow(x$amalgams)),
                          center = FALSE, scale = FALSE,
                          a1 = 1, a2 = 2, a3 = 3,
                          ...){
+
+  if(x$fitness == -1e+06){
+    stop("No viable solution was found!")
+  }
 
   cols <- viridis::viridis(length(unique(col)))[factor(col)]
 
@@ -82,9 +92,14 @@ plot.amalgam <- function(x, col = rep(1, nrow(x$amalgams)),
     options("robust" = FALSE)
   }
 
-  graphics::plot(compositions::acomp(x$amalgams[,c(a1,a2,a3)]),
-                 col = cols, center = center, scale = scale,
-                 main = "3-part amalgam", pch = 16)
+  if(is.null(x$SLR)){
+    graphics::plot(compositions::acomp(x$amalgams[,c(a1,a2,a3)]),
+                   col = cols, center = center, scale = scale,
+                   main = "3-part amalgam", pch = 16)
+  }else{
+    graphics::plot(x$SLR[,a1], x$SLR[,a2], col = cols,
+                   main = "2-part SLR", pch = 16)
+  }
 
   graphics::par(mfrow=c(1,1))
 }

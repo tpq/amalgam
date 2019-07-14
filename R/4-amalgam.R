@@ -28,6 +28,8 @@
 #' @param z A matrix. The constraining matrix. Optional.
 #' @param objective A function. The objective function. See above.
 #' @param weights A function. The weights function. See above.
+#' @param asSLR A boolean. Toggles whether to turn the amalgams into a set
+#'  of summed log-ratios (SLRs). See \code{\link{as.slr}}.
 #' @param ... Arguments passed to \code{GA::ga} function.
 #' @return An \code{amalgam} S3 object.
 #' @examples
@@ -38,10 +40,11 @@
 #' @export
 amalgam <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
                     objective = objective.keepDist,
-                    weights = weight.Nto1, ...){
+                    weights = weight.Nto1,
+                    asSLR = FALSE, ...){
 
   ARGS <- prepareArgs(x = x, n.amalgams = n.amalgams, maxiter = maxiter, z = z,
-                      objective = objective, weights = weights, ...)
+                      objective = objective, weights = weights, asSLR = asSLR, ...)
 
   # Pass ... to GA::ga without breaking objective function
   call <- list(type = "binary", fitness = ARGS$objective,
@@ -62,6 +65,13 @@ amalgam <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
   rownames(W) <- colnames(ARGS$x)
   rownames(A) <- rownames(ARGS$x)
 
+  # Get SLRs (optional)
+  if(ARGS$asSLR){
+    slr <- as.slr(A)
+  }else{
+    slr <- NULL
+  }
+
   # Prepare S3 results object
   out <- list(
     "ga" = res,
@@ -72,7 +82,8 @@ amalgam <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
     "amalgams" = A,
     "original" = ARGS$x,
     "original.no0" = ARGS$x.no0,
-    "weights" = W)
+    "weights" = W,
+    "SLR" = slr)
   class(out) <- "amalgam"
   return(out)
 }
@@ -86,7 +97,8 @@ amalgam <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
 #' @export
 prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
                         objective = objective.keepDist,
-                        weights = weight.Nto1, ...){
+                        weights = weight.Nto1,
+                        asSLR = FALSE, ...){
 
   # Coerce as.matrix (needed for data.frame and acomp input)
   x <- as.matrix(x)
@@ -94,7 +106,7 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
 
   # Collect arguments as a list
   ARGS <- list(x = x, n.amalgams = n.amalgams, maxiter = maxiter, z = z,
-               objective = objective, weights = weights, ...)
+               objective = objective, weights = weights, asSLR = asSLR, ...)
   ARGS$forGA <- as.list(substitute(list(...)))[-1]
 
   # Replace zeros if needed...
@@ -131,4 +143,35 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
   }
 
   return(ARGS)
+}
+
+#' Turn Components into Log-Ratios
+#'
+#' The \code{as.slr} function turns a composition
+#'  (or \code{amalgam} object) into a set of log-ratios by taking
+#'  the log of the first column over the second, the log of the
+#'  third column over the fourth, and so on.
+#'
+#' When the input is an \code{amalgam} object, the result
+#'  is a set of summed log-ratios (SLRs).
+#'
+#' @param amalgams A \code{matrix} or \code{amalgam} object.
+#' @return A \code{matrix}.
+#' @export
+as.slr <- function(amalgams){
+
+  if(class(amalgams) == "amalgam"){
+    return(as.slr(amalgams$amalgams))
+  }
+
+  if(ncol(amalgams) %% 2 == 1){
+    stop("Must have an even number of amalgams to turn them into summed log-ratios (SLRs).")
+  }
+
+  odds <- 1:ncol(amalgams) %% 2 == 1
+  evens <- 1:ncol(amalgams) %% 2 == 0
+
+  slr <- log(amalgams[,odds] / amalgams[,evens])
+
+  return(slr)
 }

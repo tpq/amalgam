@@ -1,3 +1,9 @@
+## amalgam 0.0.7
+---------------------
+* Update `objective.maxRDA` method
+    * Add `tryCatch` to handle the Lapack routine 'dgesdd' error
+    * This error occurs when the SVD fails to converge
+
 ## amalgam 0.0.6
 ---------------------
 * New `as.slr` function turns components into a set of summed log-ratios

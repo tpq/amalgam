@@ -52,17 +52,20 @@ objective.maxRDA <- function(codon, ARGS){
     return(-1000000)
   }
 
-  # Calculate distance for SLR or amalgams
+  # Maximize variance in Z explained by AMALG
   if(ARGS$asSLR){
     slr <- as.slr(A)
-    v <- vegan::rda(slr, data.frame(ARGS$z))
+    tryCatch({
+      vegan::rda(slr, data.frame(ARGS$z))
+      return(v$CCA$eig / v$tot.chi)
+    }, error = function(e) return(-1000000))
   }else{
     ilr <- compositions::ilr(A)
-    v <- vegan::rda(ilr, data.frame(ARGS$z))
+    tryCatch({
+      v <- vegan::rda(ilr, data.frame(ARGS$z))
+      return(v$CCA$eig / v$tot.chi)
+    }, error = function(e) return(-1000000))
   }
-
-  # Maximize variance in Z explained by AMALG
-  v$CCA$eig / v$tot.chi
 }
 
 # objective.maxInvDiag <- function(codon, ARGS){

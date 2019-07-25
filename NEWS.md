@@ -1,3 +1,9 @@
+## amalgam 0.0.8
+---------------------
+* Have `prepareArgs` coerce "z" as a `data.frame`
+* Update `objective.maxRDA` method
+    * Now save the intermediate data to debug
+
 ## amalgam 0.0.7
 ---------------------
 * Update `objective.maxRDA` method

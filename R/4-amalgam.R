@@ -100,9 +100,12 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
                         weights = weight.Nto1,
                         asSLR = FALSE, ...){
 
-  # Coerce as.matrix (needed for data.frame and acomp input)
+  # Coerce x as.matrix (needed for data.frame and acomp input)
   x <- as.matrix(x)
   class(x) <- "matrix"
+
+  # Coerce z as.data.frame
+  z <- as.data.frame(z)
 
   # Collect arguments as a list
   ARGS <- list(x = x, n.amalgams = n.amalgams, maxiter = maxiter, z = z,

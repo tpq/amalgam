@@ -53,18 +53,31 @@ objective.maxRDA <- function(codon, ARGS){
   }
 
   # Maximize variance in Z explained by AMALG
-  if(ARGS$asSLR){
-    slr <- as.slr(A)
-    tryCatch({
-      vegan::rda(slr, data.frame(ARGS$z))
-      return(v$CCA$eig / v$tot.chi)
-    }, error = function(e) return(-1000000))
+  tryCatch({
+
+    if(ARGS$asSLR){
+      slr <- as.slr(A)
+      v <- vegan::rda(slr, ARGS$z)
+    }else{
+      ilr <- compositions::ilr(A)
+      v <- vegan::rda(ilr, ARGS$z)
+    }
+
+  }, error = function(e){
+
+    return(-1000000)
+  })
+
+  varExplained <- v$CCA$eig / v$tot.chi
+  if(length(varExplained) == 0){
+
+    save(v, file = "DEBUG.RData")
+    stop("RDA failed to explain any variance.",
+         "\nData saved locally to debug.")
+
   }else{
-    ilr <- compositions::ilr(A)
-    tryCatch({
-      v <- vegan::rda(ilr, data.frame(ARGS$z))
-      return(v$CCA$eig / v$tot.chi)
-    }, error = function(e) return(-1000000))
+
+    return(varExplained)
   }
 }
 

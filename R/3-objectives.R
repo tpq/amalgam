@@ -71,7 +71,10 @@ objective.maxRDA <- function(codon, ARGS){
   varExplained <- v$CCA$eig / v$tot.chi
   if(length(varExplained) == 0){
 
-    save(v, file = "DEBUG.RData")
+    save(v, file = "DEBUG-rda.RData")
+    sink("DEBUG-rda.txt")
+    print(v)
+    sink()
     stop("RDA failed to explain any variance.",
          "\nData saved locally to debug.")
 

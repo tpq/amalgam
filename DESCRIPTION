@@ -1,6 +1,6 @@
 Package: amalgam
 Title: Amalgamation-Based Dimension Reduction of Compositional Data
-Version: 0.0.8
+Version: 0.0.9
 URL: http://github.com/tpq/amalgam
 BugReports: http://github.com/tpq/amalgam/issues
 Authors@R: c(

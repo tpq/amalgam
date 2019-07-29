@@ -1,3 +1,8 @@
+## amalgam 0.0.9
+---------------------
+* Update `objective.maxRDA` method
+    * Handle rare case when constrained axes explain no variance
+
 ## amalgam 0.0.8
 ---------------------
 * Have `prepareArgs` coerce "z" as a `data.frame`

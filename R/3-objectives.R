@@ -56,32 +56,24 @@ objective.maxRDA <- function(codon, ARGS){
   tryCatch({
 
     if(ARGS$asSLR){
+
       slr <- as.slr(A)
       v <- vegan::rda(slr, ARGS$z)
+
     }else{
+
       ilr <- compositions::ilr(A)
       v <- vegan::rda(ilr, ARGS$z)
     }
 
   }, error = function(e){
 
-    return(-1000000)
+    return(-1000000) # handle error when SVD fails to converge
   })
 
   varExplained <- v$CCA$eig / v$tot.chi
-  if(length(varExplained) == 0){
-
-    save(v, file = "DEBUG-rda.RData")
-    sink("DEBUG-rda.txt")
-    print(v)
-    sink()
-    stop("RDA failed to explain any variance.",
-         "\nData saved locally to debug.")
-
-  }else{
-
-    return(varExplained)
-  }
+  if(length(varExplained) == 0) return(-1000000) # handle when no CCA inertia
+  return(varExplained)
 }
 
 # objective.maxInvDiag <- function(codon, ARGS){

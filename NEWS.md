@@ -2,6 +2,7 @@
 ---------------------
 * Update `objective.maxRDA` method
     * Handle rare case when constrained axes explain no variance
+    * Add check for "z" argument
 
 ## amalgam 0.0.8
 ---------------------

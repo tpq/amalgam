@@ -65,12 +65,12 @@ objective.maxRDA <- function(codon, ARGS){
       ilr <- compositions::ilr(A)
       v <- vegan::rda(ilr, ARGS$z)
     }
-
   }, error = function(e){
 
-    return(-1000000) # handle error when SVD fails to converge
+    v <- numeric() # handle error when SVD fails to converge
   })
 
+  if(length(v) == 0) return(-1000000)
   varExplained <- v$CCA$eig / v$tot.chi
   if(length(varExplained) == 0) return(-1000000) # handle when no CCA inertia
   return(varExplained)

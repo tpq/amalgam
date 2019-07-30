@@ -127,6 +127,12 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
     # Find Aitchison distance for non-zero data
     ARGS$TARGET <- as.matrix(stats::dist(compositions::clr(ARGS$x.no0)))
     message("Alert: Aitchison distance TARGET calculation complete.")
+
+  }else if(identical(objective, objective.maxRDA)){
+
+    if(nrow(ARGS$z) == 0){
+      stop("Please provide a valid constraining matrix to argument 'z'.")
+    }
   }
 
   # Calculate totalBits needed based on parameters

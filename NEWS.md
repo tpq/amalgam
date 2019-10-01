@@ -1,3 +1,8 @@
+## amalgam 0.1.0
+---------------------
+* Update `objective.maxRDA2` method
+    * Like `objective.maxRDA` but makes "z" the community matrix
+
 ## amalgam 0.0.9
 ---------------------
 * Update `objective.maxRDA` method

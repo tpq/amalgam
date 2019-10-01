@@ -44,7 +44,7 @@ test_that("objective.maxRDA makes sense", {
 
   v <- vegan::rda(ilr(res$amalgams), data.frame(ARGS$z))
   expect_equal(
-    v$CCA$eig / v$tot.chi,
+    sum(v$CCA$eig / v$tot.chi),
     res$fitness
   )
 })

@@ -71,7 +71,7 @@ objective.maxRDA <- function(codon, ARGS){
   })
 
   if(length(v) == 0) return(-1000000)
-  varExplained <- v$CCA$eig / v$tot.chi
+  varExplained <- sum(v$CCA$eig / v$tot.chi)
   if(length(varExplained) == 0) return(-1000000) # handle when no CCA inertia
   return(varExplained)
 }
@@ -114,7 +114,7 @@ objective.maxRDA2 <- function(codon, ARGS){
   })
 
   if(length(v) == 0) return(-1000000)
-  varExplained <- v$CCA$eig / v$tot.chi
+  varExplained <- sum(v$CCA$eig / v$tot.chi)
   if(length(varExplained) == 0) return(-1000000) # handle when no CCA inertia
   return(varExplained)
 }

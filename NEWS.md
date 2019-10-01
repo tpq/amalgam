@@ -1,3 +1,8 @@
+## amalgam 0.1.1
+---------------------
+* Update `objective.maxRDA` and `objective.maxRDA2`
+    * Now sums inertia across all RD axes (as it should)
+
 ## amalgam 0.1.0
 ---------------------
 * Update `objective.maxRDA2` method

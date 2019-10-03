@@ -1,3 +1,7 @@
+## amalgam 0.1.3
+---------------------
+* Switch `objective.maxRDA` and `objective.maxRDA2` (again)
+
 ## amalgam 0.1.2
 ---------------------
 * Switch `objective.maxRDA` and `objective.maxRDA2`

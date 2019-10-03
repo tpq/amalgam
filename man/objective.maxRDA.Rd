@@ -13,6 +13,6 @@ objective.maxRDA(codon, ARGS)
 }
 \description{
 This objective function seeks to maximize the percent of the
- total variance present in the amalgamation that can be explained
- by the constraining matrix, z.
+ total variance present in the matrix z that can be explained
+ by the amalgams.
 }

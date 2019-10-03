@@ -1,3 +1,7 @@
+## amalgam 0.1.2
+---------------------
+* Switch `objective.maxRDA` and `objective.maxRDA2`
+
 ## amalgam 0.1.1
 ---------------------
 * Update `objective.maxRDA` and `objective.maxRDA2`

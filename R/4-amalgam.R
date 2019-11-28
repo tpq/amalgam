@@ -115,7 +115,7 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
 
   # Replace zeros if needed...
   if(any(x == 0)){
-    message("Alert: Replacing zeros with zCompositions for TARGET calculation.")
+    message("Alert: Replacing zeros with zCompositions for TARGET calculation (if applicable).")
     packageCheck("zCompositions")
     ARGS$x.no0 <- zCompositions::cmultRepl(x, method = "CZM")
   }else{

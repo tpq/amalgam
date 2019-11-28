@@ -1,3 +1,9 @@
+## amalgam 0.1.5
+---------------------
+* Update information objectives
+    * `objective.keepEntropy` now recloses the amalgamation (as it should)
+    * `objective.diffEntropy` now recloses the amalgamation (as it should)
+
 ## amalgam 0.1.4
 ---------------------
 * New backend information functions

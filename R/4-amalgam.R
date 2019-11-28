@@ -103,6 +103,7 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
   # Coerce x as.matrix (needed for data.frame and acomp input)
   x <- as.matrix(x)
   class(x) <- "matrix"
+  x <- sweep(x, 1, rowSums(x), "/")
 
   # Coerce z as.data.frame
   z <- as.data.frame(z)
@@ -127,8 +128,11 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
     # Find Aitchison distance for non-zero data
     ARGS$TARGET <- as.matrix(stats::dist(compositions::clr(ARGS$x.no0)))
     message("Alert: Aitchison distance TARGET calculation complete.")
+  }
 
-  }else if(identical(objective, objective.maxRDA)){
+  if(identical(objective, objective.maxRDA) |
+     identical(objective, objective.maxRDA2) |
+     identical(objective, objective.diffEntropy)){
 
     if(nrow(ARGS$z) == 0){
       stop("Please provide a valid constraining matrix to argument 'z'.")

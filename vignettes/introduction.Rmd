@@ -52,7 +52,13 @@ print(out)
 
 ## Visualization
 
-```{r, message = FALSE}
+```{r, eval = FALSE}
+fakeClusters <- cutree(hclust(dist(sampleData)), 3)
+plot(out, col = fakeClusters, center = TRUE, scale = TRUE)
+```
+
+```{r, echo = FALSE, message = FALSE}
+par(mar = rep(1, 4))
 fakeClusters <- cutree(hclust(dist(sampleData)), 3)
 plot(out, col = fakeClusters, center = TRUE, scale = TRUE)
 ```

@@ -28,10 +28,10 @@ objective.keepEntropy <- function(codon, ARGS){
   A <- ARGS$x %*% W
   A <- sweep(A, 1, rowSums(A), "/")
 
-  # # Don't allow zeros!
-  # if(any(A == 0)){
-  #   return(-1000000)
-  # }
+  # Don't allow zeros!
+  if(any(A == 0)){
+    return(-1000000)
+  }
 
   if(ARGS$asSLR){
     stop("This objective does not support summed log-ratios.")
@@ -57,10 +57,10 @@ objective.diffEntropy <- function(codon, ARGS){
   A <- ARGS$x %*% W
   A <- sweep(A, 1, rowSums(A), "/")
 
-  # # Don't allow zeros!
-  # if(any(A == 0)){
-  #   return(-1000000)
-  # }
+  # Don't allow zeros!
+  if(any(A == 0)){
+    return(-1000000)
+  }
 
   if(ARGS$asSLR){
     stop("This objective does not support summed log-ratios.")

@@ -1,3 +1,14 @@
+## amalgam 0.1.4
+---------------------
+* New backend information functions
+    * `shannon` function calculates Shannon's index
+    * `uniformity` function calculates a normalized Shannon's index
+* New objective functions
+    * `objective.keepEntropy` preserves the relative entropy of the amalgams
+    * `objective.diffEntropy` maximizes the between-group difference in amalgam entropy
+* Update `amalgam` function
+    * `prepareArgs` now forces a re-closure of the data
+
 ## amalgam 0.1.3
 ---------------------
 * Switch `objective.maxRDA` and `objective.maxRDA2` (again)

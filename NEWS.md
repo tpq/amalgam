@@ -1,3 +1,8 @@
+## amalgam 0.1.6
+---------------------
+* New objective function
+    * `objective.keepWeightedDist` preserves the weighted Aitchison distance
+
 ## amalgam 0.1.5
 ---------------------
 * Update information objectives

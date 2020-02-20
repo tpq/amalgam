@@ -16,7 +16,7 @@ Description: It is difficult to visualize high-dimensional compositional data. O
 License: GPL-2
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Encoding: UTF-8
 Depends:
     R (>= 3.2.2)

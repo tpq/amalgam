@@ -130,6 +130,14 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
     message("Alert: Aitchison distance TARGET calculation complete.")
   }
 
+  # Calculate "TARGET" from complete data (if applicable)
+  if(identical(objective, objective.keepWeightedDist)){
+
+    # Find Aitchison distance for non-zero data
+    ARGS$TARGET <- wadist(ARGS$x.no0)
+    message("Alert: Weighted Aitchison distance TARGET calculation complete.")
+  }
+
   if(identical(objective, objective.maxRDA) |
      identical(objective, objective.maxRDA2) |
      identical(objective, objective.diffEntropy)){

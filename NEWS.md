@@ -1,7 +1,12 @@
+## amalgam 0.1.7
+---------------------
+* New objective function
+    * `objective.keepSKL` preserves the (symmetric) Kullback-Leibler divergence
+
 ## amalgam 0.1.6
 ---------------------
 * New objective function
-    * `objective.keepWeightedDist` preserves the weighted Aitchison distance
+    * `objective.keepWADIST` preserves the weighted Aitchison distance
 
 ## amalgam 0.1.5
 ---------------------

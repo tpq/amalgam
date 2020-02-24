@@ -1,10 +1,11 @@
 Package: amalgam
 Title: Amalgamation-Based Dimension Reduction of Compositional Data
-Version: 0.1.6
+Version: 0.1.7
 URL: http://github.com/tpq/amalgam
 BugReports: http://github.com/tpq/amalgam/issues
 Authors@R: c(
-    person("Thomas", "Quinn", email = "contacttomquinn@gmail.com", role = c("aut", "cre"))
+    person("Thomas", "Quinn", email = "contacttomquinn@gmail.com", role = c("aut", "cre")),
+    person("Ionas", "Erb", email = "ionas.erb@crg.eu", role = c("ctb"))
     )
 Description: It is difficult to visualize high-dimensional compositional data. One approach
     involves amalgamating the parts into a new set of composite features called "amalgams".
@@ -22,6 +23,7 @@ Depends:
     R (>= 3.2.2)
 Imports:
     compositions,
+    entropy,
     GA,
     vegan,
     viridis

@@ -4,16 +4,9 @@
 \alias{prepareArgs}
 \title{Argument Handler Function}
 \usage{
-prepareArgs(
-  x,
-  n.amalgams = 3,
-  maxiter = ncol(x) * 10,
-  z = NULL,
-  objective = objective.keepDist,
-  weights = weight.Nto1,
-  asSLR = FALSE,
-  ...
-)
+prepareArgs(x, n.amalgams = 3, maxiter = ncol(x) * 10, z = NULL,
+  objective = objective.keepDist, weights = weight.Nto1,
+  asSLR = FALSE, ...)
 }
 \arguments{
 \item{x}{A matrix. The input data. Rows are samples and columns are components.}

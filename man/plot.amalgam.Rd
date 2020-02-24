@@ -4,16 +4,8 @@
 \alias{plot.amalgam}
 \title{Plot \code{amalgam} Object}
 \usage{
-\method{plot}{amalgam}(
-  x,
-  col = rep(1, nrow(x$amalgams)),
-  center = FALSE,
-  scale = FALSE,
-  a1 = 1,
-  a2 = 2,
-  a3 = 3,
-  ...
-)
+\method{plot}{amalgam}(x, col = rep(1, nrow(x$amalgams)),
+  center = FALSE, scale = FALSE, a1 = 1, a2 = 2, a3 = 3, ...)
 }
 \arguments{
 \item{x}{An \code{amalgam} object.}

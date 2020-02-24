@@ -101,9 +101,11 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
                         asSLR = FALSE, ...){
 
   # Coerce x as.matrix (needed for data.frame and acomp input)
+  rowWeights <- rowSums(x)
   x <- as.matrix(x)
   class(x) <- "matrix"
-  x <- sweep(x, 1, rowSums(x), "/")
+  x <- sweep(x, 1, rowWeights, "/")
+  message("Alert: Compositional data closed to sum to 1.")
 
   # Coerce z as.data.frame
   z <- as.data.frame(z)
@@ -131,11 +133,28 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
   }
 
   # Calculate "TARGET" from complete data (if applicable)
-  if(identical(objective, objective.keepWeightedDist)){
+  if(identical(objective, objective.keepWADIST)){
 
     # Find Aitchison distance for non-zero data
     ARGS$TARGET <- wadist(ARGS$x.no0)
     message("Alert: Weighted Aitchison distance TARGET calculation complete.")
+  }
+
+  # Calculate "TARGET" from complete data (if applicable)
+  if(identical(objective, objective.keepSKL)){
+
+    # if(all(rowWeights <= 1)){
+    #   stop("The SKL objective requires count-based input.")
+    # }
+    #
+    # # NOTE: SKL requires count-based inputs!
+    # ARGS$x <- sweep(ARGS$x, 1, rowWeights, "*")
+    # ARGS$x.no0 <- sweep(ARGS$x.no0, 1, rowWeights, "*")
+    # message("Alert: Compositional data re-scaled to counts (needed for the SKL objective).")
+
+    # Find SKL divergence for non-zero data
+    ARGS$TARGET <- SKL(ARGS$x.no0)
+    message("Alert: Kullback-Leibler divergence TARGET calculation complete.")
   }
 
   if(identical(objective, objective.maxRDA) |

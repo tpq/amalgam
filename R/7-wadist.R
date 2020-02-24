@@ -36,7 +36,7 @@ wadist <- function(A){
 #' @param codon A binary vector.
 #' @param ARGS Handled by \code{\link{prepareArgs}}.
 #' @export
-objective.keepWeightedDist <- function(codon, ARGS){
+objective.keepWADIST <- function(codon, ARGS){
 
   W <- do.call(ARGS$weights, list(codon, n.amalgams = ARGS$n.amalgams))
   A <- ARGS$x %*% W

@@ -4,9 +4,17 @@
 \alias{prepareArgs}
 \title{Argument Handler Function}
 \usage{
-prepareArgs(x, n.amalgams = 3, maxiter = ncol(x) * 10, z = NULL,
-  objective = objective.keepDist, weights = weight.Nto1,
-  asSLR = FALSE, ...)
+prepareArgs(
+  x,
+  n.amalgams = 3,
+  maxiter = ncol(x) * 10,
+  z = NULL,
+  objective = objective.keepDist,
+  weights = weight.Nto1,
+  asSLR = FALSE,
+  shrink = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{A matrix. The input data. Rows are samples and columns are components.}
@@ -23,6 +31,9 @@ prepareArgs(x, n.amalgams = 3, maxiter = ncol(x) * 10, z = NULL,
 
 \item{asSLR}{A boolean. Toggles whether to turn the amalgams into a set
 of summed log-ratios (SLRs). See \code{\link{as.slr}}.}
+
+\item{shrink}{A boolean. Toggles whether to estimate bin frequencies
+from the count vectors by James-Stein-type shrinkage.}
 
 \item{...}{Arguments passed to \code{GA::ga} function.}
 }

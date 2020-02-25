@@ -30,6 +30,8 @@
 #' @param weights A function. The weights function. See above.
 #' @param asSLR A boolean. Toggles whether to turn the amalgams into a set
 #'  of summed log-ratios (SLRs). See \code{\link{as.slr}}.
+#' @param shrink A boolean. Toggles whether to estimate bin frequencies
+#'  from the count vectors by James-Stein-type shrinkage.
 #' @param ... Arguments passed to \code{GA::ga} function.
 #' @return An \code{amalgam} S3 object.
 #' @examples
@@ -41,10 +43,10 @@
 amalgam <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
                     objective = objective.keepDist,
                     weights = weight.Nto1,
-                    asSLR = FALSE, ...){
+                    asSLR = FALSE, shrink = FALSE, ...){
 
   ARGS <- prepareArgs(x = x, n.amalgams = n.amalgams, maxiter = maxiter, z = z,
-                      objective = objective, weights = weights, asSLR = asSLR, ...)
+                      objective = objective, weights = weights, asSLR = asSLR, shrink = shrink, ...)
 
   # Pass ... to GA::ga without breaking objective function
   call <- list(type = "binary", fitness = ARGS$objective,
@@ -98,31 +100,53 @@ amalgam <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
 prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
                         objective = objective.keepDist,
                         weights = weight.Nto1,
-                        asSLR = FALSE, ...){
+                        asSLR = FALSE, shrink = FALSE, ...){
+
+  ### PREPARE x, x.no0, AND z DATA FOR ANALYSIS
 
   # Coerce x as.matrix (needed for data.frame and acomp input)
-  rowWeights <- rowSums(x)
   x <- as.matrix(x)
   class(x) <- "matrix"
-  x <- sweep(x, 1, rowWeights, "/")
-  message("Alert: Compositional data closed to sum to 1.")
+
+  if(shrink){
+
+    # Apply shrinkage to the input data
+    if(all(rowSums(x) <= 1)) stop("The shrink estimator requires a counts matrix as input.")
+    x <- t(apply(x, 1, function(row) entropy::freqs(row, method = "shrink", verbose = FALSE)))
+    message("Alert: Bin frequencies estimated by James-Stein-type shrinkage.")
+
+    # Shrinkage should replace zeros
+    if(any(x == 0)) stop("Unexpected zeros. Please contact package developer.")
+    x.no0 <- x
+    message("Alert: Zeros naturally replaced by shrinkage.")
+
+  }else{
+
+    # Close data
+    x <- sweep(x, 1, rowSums(x), "/")
+    message("Alert: Compositional data closed to sum to 1.")
+
+    # Replace zeros if needed...
+    if(any(x == 0)){
+      message("Alert: Replacing zeros with zCompositions for TARGET calculation (if applicable).")
+      packageCheck("zCompositions")
+      x.no0 <- as.matrix(zCompositions::cmultRepl(x, method = "CZM"))
+    }else{
+      x.no0 <- x
+    }
+  }
 
   # Coerce z as.data.frame
   z <- as.data.frame(z)
 
+  ### BUNDLE ALL ARGUMENTS IN A SIMPLE LIST
+
   # Collect arguments as a list
-  ARGS <- list(x = x, n.amalgams = n.amalgams, maxiter = maxiter, z = z,
+  ARGS <- list(x = x, x.no0 = x.no0, n.amalgams = n.amalgams, maxiter = maxiter, z = z,
                objective = objective, weights = weights, asSLR = asSLR, ...)
   ARGS$forGA <- as.list(substitute(list(...)))[-1]
 
-  # Replace zeros if needed...
-  if(any(x == 0)){
-    message("Alert: Replacing zeros with zCompositions for TARGET calculation (if applicable).")
-    packageCheck("zCompositions")
-    ARGS$x.no0 <- zCompositions::cmultRepl(x, method = "CZM")
-  }else{
-    ARGS$x.no0 <- x
-  }
+  ### HANDLE SPECIFIC OBJECTIVE FUNCTIONS
 
   # Calculate "TARGET" from complete data (if applicable)
   if(identical(objective, objective.keepDist)){
@@ -143,15 +167,6 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
   # Calculate "TARGET" from complete data (if applicable)
   if(identical(objective, objective.keepSKL)){
 
-    # if(all(rowWeights <= 1)){
-    #   stop("The SKL objective requires count-based input.")
-    # }
-    #
-    # # NOTE: SKL requires count-based inputs!
-    # ARGS$x <- sweep(ARGS$x, 1, rowWeights, "*")
-    # ARGS$x.no0 <- sweep(ARGS$x.no0, 1, rowWeights, "*")
-    # message("Alert: Compositional data re-scaled to counts (needed for the SKL objective).")
-
     # Find SKL divergence for non-zero data
     ARGS$TARGET <- SKL(ARGS$x.no0)
     message("Alert: Kullback-Leibler divergence TARGET calculation complete.")
@@ -159,12 +174,15 @@ prepareArgs <- function(x, n.amalgams = 3, maxiter = ncol(x)*10, z = NULL,
 
   if(identical(objective, objective.maxRDA) |
      identical(objective, objective.maxRDA2) |
-     identical(objective, objective.diffEntropy)){
+     identical(objective, objective.maxDEntropy) |
+     identical(objective, objective.maxDSKL)){
 
     if(nrow(ARGS$z) == 0){
       stop("Please provide a valid constraining matrix to argument 'z'.")
     }
   }
+
+  ### HANDLE SPECIFIC WEIGHT RULES
 
   # Calculate totalBits needed based on parameters
   if(identical(ARGS$weights, weight.Nto1)){

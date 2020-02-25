@@ -1,18 +1,26 @@
+## amalgam 0.1.8
+---------------------
+* New zero-handling procedure
+    * If `shrink = TRUE`, bin frequencies are estimated by James-Stein-type shrinkage
+* New objective functions
+    * Add `asSLR` support to `objective.keepWADIST` by comparing with Euclidean distance
+    * `objective.maxDSKL` maximizes the RDA of a PCoA of the SKL divergences
+
 ## amalgam 0.1.7
 ---------------------
 * New objective function
-    * `objective.keepSKL` preserves the (symmetric) Kullback-Leibler divergence
+    * `objective.keepSKL` preserves the symmetric Kullback-Leibler (SKL) divergences
 
 ## amalgam 0.1.6
 ---------------------
 * New objective function
-    * `objective.keepWADIST` preserves the weighted Aitchison distance
+    * `objective.keepWADIST` preserves the weighted Aitchison distances
 
 ## amalgam 0.1.5
 ---------------------
 * Update information objectives
     * `objective.keepEntropy` now recloses the amalgamation (as it should)
-    * `objective.diffEntropy` now recloses the amalgamation (as it should)
+    * `objective.maxDEntropy` now recloses the amalgamation (as it should)
 
 ## amalgam 0.1.4
 ---------------------
@@ -21,7 +29,7 @@
     * `uniformity` function calculates a normalized Shannon's index
 * New objective functions
     * `objective.keepEntropy` preserves the relative entropy of the amalgams
-    * `objective.diffEntropy` maximizes the between-group difference in amalgam entropy
+    * `objective.maxDEntropy` maximizes the between-group difference in amalgam entropy
 * Update `amalgam` function
     * `prepareArgs` now forces a re-closure of the data
 

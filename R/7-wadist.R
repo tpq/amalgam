@@ -48,7 +48,8 @@ objective.keepWADIST <- function(codon, ARGS){
 
   # Calculate distance for SLR or amalgams
   if(ARGS$asSLR){
-    stop("This objective function does not support summed log-ratios.")
+    slr <- as.slr(A)
+    NEWDIST <- as.matrix(stats::dist(slr))
   }else{
     NEWDIST <- wadist(A)
   }
